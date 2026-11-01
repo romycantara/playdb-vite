@@ -1,0 +1,55 @@
+{
+  "name": "playdb-vite",
+  "version": "1.0.0",
+  "description": "Vite integration for PlayLite (PHP) and PlayGoLite (Go).",
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "playlite",
+    "playgolite",
+    "playdb",
+    "php",
+    "go"
+  ],
+  "author": "romycantara",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romycantara/playdb-vite.git"
+  },
+  "homepage": "https://github.com/romycantara/playdb-vite#readme",
+  "bugs": {
+    "url": "https://github.com/romycantara/playdb-vite/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "bin": {
+    "playdb-vite-clean": "bin/clean.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./inertia-helpers": "./inertia-helpers/index.js",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist",
+    "inertia-helpers"
+  ],
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0"
+  },
+  "engines": {
+    "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
+  },
+  "dependencies": {
+    "picocolors": "^1.0.0",
+    "vite-plugin-full-reload": "^1.1.0"
+  }
+}

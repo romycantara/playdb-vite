@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noindex">
+        <meta name="description" content="PlayDb Vite development shell. Open the application root instead of /index.html.">
+        <meta name="theme-color" content="#4f7f68">
+        <title>PlayDb Vite — Development shell</title>
+        <style>
+            :root {
+                color-scheme: light;
+                --bg: #eef4f1;
+                --surface: #ffffff;
+                --surface-soft: #f6faf8;
+                --text: #14211b;
+                --muted: #5d7267;
+                --border: #d7e3dc;
+                --accent: #4f7f68;
+                --accent-strong: #3d6653;
+                --accent-soft: #e4f0e9;
+                --code-bg: #101917;
+                --code-text: #d8f0e4;
+                --shadow: 0 24px 60px -32px rgba(20, 33, 27, 0.45);
+                --radius: 20px;
+                --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    color-scheme: dark;
+                    --bg: #0b1210;
+                    --surface: #121a17;
+                    --surface-soft: #16211d;
+                    --text: #e8f2ec;
+                    --muted: #9db0a6;
+                    --border: #26362f;
+                    --accent: #7bb59a;
+                    --accent-strong: #9dcbb3;
+                    --accent-soft: #1b2a24;
+                    --code-bg: #0a0f0d;
+                    --code-text: #cde9dc;
+                    --shadow: 0 28px 70px -38px rgba(0, 0, 0, 0.9);
+                }
+            }
+
+            *,
+            ::before,
+            ::after {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                min-height: 100%;
+            }
+
+            body {
+                margin: 0;
+                padding: 32px 20px 48px;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                background-color: var(--bg);
+                background-image:
+                    radial-gradient(circle at 12% 8%, rgba(79, 127, 104, 0.16), transparent 38%),
+                    radial-gradient(circle at 88% 0%, rgba(79, 127, 104, 0.1), transparent 34%),
+                    linear-gradient(to right, rgba(20, 33, 27, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(20, 33, 27, 0.05) 1px, transparent 1px);
+                background-size: auto, auto, 32px 32px, 32px 32px;
+                color: var(--text);
+                font-family: var(--font);
+                font-size: 15px;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background-image:
+                        radial-gradient(circle at 12% 8%, rgba(123, 181, 154, 0.12), transparent 38%),
+                        radial-gradient(circle at 88% 0%, rgba(123, 181, 154, 0.08), transparent 34%),
+                        linear-gradient(to right, rgba(232, 242, 236, 0.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(232, 242, 236, 0.04) 1px, transparent 1px);
+                }
+            }
+
+            .page {
+                width: min(980px, 100%);
+                display: grid;
+                gap: 22px;
+            }
+
+            .topbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .brand {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .brand__mark {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                background: var(--surface);
+                color: var(--accent);
+                box-shadow: 0 8px 24px -18px rgba(20, 33, 27, 0.45);
+            }
+
+            .brand__name {
+                font-size: 17px;
+                font-weight: 700;
+                letter-spacing: -0.01em;
+            }
+
+            .brand__chip {
+                display: inline-flex;
+                align-items: center;
+                margin-left: 7px;
+                padding: 2px 7px;
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                background: var(--surface-soft);
+                color: var(--muted);
+                font-family: var(--mono);
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                vertical-align: middle;
+            }
+
+            .status {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 12px;
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                background: var(--surface);
+                color: var(--muted);
+                font-family: var(--mono);
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+            }
+
+            .status__dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 999px;
+                background: var(--accent);
+                box-shadow: 0 0 0 3px var(--accent-soft);
+            }
+
+            .hero {
+                position: relative;
+                display: grid;
+                grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+                gap: 36px;
+                padding: 36px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                background: var(--surface);
+                box-shadow: var(--shadow);
+                overflow: hidden;
+            }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                inset: 0 0 auto;
+                height: 4px;
+                background: linear-gradient(90deg, var(--accent), #89b7a0 55%, transparent);
+            }
+
+            .eyebrow {
+                margin: 0 0 10px;
+                color: var(--accent);
+                font-family: var(--mono);
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+            }
+
+            h1 {
+                margin: 0;
+                max-width: 15ch;
+                font-size: clamp(2rem, 4vw, 2.85rem);
+                font-weight: 700;
+                letter-spacing: -0.035em;
+                line-height: 1.08;
+            }
+
+            .lead {
+                margin: 18px 0 0;
+                max-width: 52ch;
+                color: var(--muted);
+                font-size: 15px;
+            }
+
+            .actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 26px;
+            }
+
+            .button {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                min-height: 40px;
+                padding: 0 16px;
+                border: 1px solid transparent;
+                border-radius: 10px;
+                font: inherit;
+                font-size: 13px;
+                font-weight: 600;
+                text-decoration: none;
+                cursor: pointer;
+                transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+            }
+
+            .button:active {
+                transform: translateY(1px);
+            }
+
+            .button:focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 2px;
+            }
+
+            .button--primary {
+                background: var(--accent);
+                color: #ffffff;
+            }
+
+            .button--primary:hover {
+                background: var(--accent-strong);
+            }
+
+            .button--ghost {
+                border-color: var(--border);
+                background: var(--surface);
+                color: var(--text);
+            }
+
+            .button--ghost:hover {
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+
+            .config {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                align-self: start;
+                padding: 22px;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                background: var(--surface-soft);
+            }
+
+            .config__label {
+                margin: 0;
+                color: var(--muted);
+                font-family: var(--mono);
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+            }
+
+            .config__url {
+                display: block;
+                overflow-wrap: anywhere;
+                color: var(--accent);
+                font-family: var(--mono);
+                font-size: 13px;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            .config__url:hover {
+                text-decoration: underline;
+                text-underline-offset: 3px;
+            }
+
+            .config__hint {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding-top: 12px;
+                border-top: 1px dashed var(--border);
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .config__hint code {
+                padding: 2px 6px;
+                border-radius: 5px;
+                background: var(--code-bg);
+                color: var(--code-text);
+                font-family: var(--mono);
+                font-size: 10px;
+            }
+
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 14px;
+            }
+
+            .info {
+                padding: 20px;
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                background: color-mix(in srgb, var(--surface) 88%, transparent);
+            }
+
+            .info__number {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                margin-bottom: 14px;
+                border: 1px solid var(--border);
+                border-radius: 7px;
+                color: var(--accent);
+                font-family: var(--mono);
+                font-size: 10px;
+                font-weight: 700;
+            }
+
+            .info h2 {
+                margin: 0 0 6px;
+                font-size: 13px;
+                font-weight: 650;
+                letter-spacing: -0.01em;
+            }
+
+            .info p {
+                margin: 0;
+                color: var(--muted);
+                font-size: 12.5px;
+                line-height: 1.65;
+            }
+
+            .info code {
+                padding: 1px 5px;
+                border-radius: 4px;
+                background: var(--accent-soft);
+                color: var(--accent-strong);
+                font-family: var(--mono);
+                font-size: 11px;
+            }
+
+            footer {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                color: var(--muted);
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+            }
+
+            @media (max-width: 820px) {
+                .hero {
+                    grid-template-columns: 1fr;
+                    gap: 24px;
+                    padding: 28px;
+                }
+
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 520px) {
+                body {
+                    padding: 20px 14px 32px;
+                }
+
+                .hero {
+                    padding: 22px;
+                    border-radius: 16px;
+                }
+
+                .status {
+                    display: none;
+                }
+
+                .actions .button {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .button {
+                    transition: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="page">
+            <header class="topbar">
+                <div class="brand">
+                    <span class="brand__mark" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2.8 20 7.4v9.2L12 21.2 4 16.6V7.4Z"></path>
+                            <path d="M4 7.4 12 12l8-4.6"></path>
+                            <path d="M12 12v9.2"></path>
+                        </svg>
+                    </span>
+                    <span class="brand__name">
+                        PlayDb
+                        <span class="brand__chip">vite</span>
+                    </span>
+                </div>
+                <span class="status">
+                    <span class="status__dot" aria-hidden="true"></span>
+                    Development shell
+                </span>
+            </header>
+
+            <section class="hero">
+                <div>
+                    <p class="eyebrow">PlayLite (PHP) · PlayGoLite (Go)</p>
+                    <h1>The Vite development shell.</h1>
+                    <p class="lead">
+                        You opened <code>/index.html</code> directly. PlayDb Vite intercepts that
+                        request so the raw Vite entry never replaces the application shell served by
+                        your backend.
+                    </p>
+
+                    <div class="actions">
+                        <a class="button button--primary" href="{{ APP_URL }}">
+                            Open application
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M7 17 17 7"></path>
+                                <path d="M8 7h9v9"></path>
+                            </svg>
+                        </a>
+                        <button class="button button--ghost" type="button" data-copy-url>
+                            Copy URL
+                        </button>
+                    </div>
+                </div>
+
+                <aside class="config" aria-label="Configured development URL">
+                    <p class="config__label">Configured viteHost</p>
+                    <a class="config__url" id="app-url" href="{{ APP_URL }}">{{ APP_URL }}</a>
+                    <div class="config__hint">
+                        <code>GET /index.html</code>
+                        <span>intercepted by playdb-vite</span>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="info-grid" aria-label="What to do next">
+                <article class="info">
+                    <span class="info__number">01</span>
+                    <h2>This 404 is intentional</h2>
+                    <p>
+                        The plugin answers <code>/index.html</code> with this page so the backend
+                        stays in control of the document shell during development.
+                    </p>
+                </article>
+
+                <article class="info">
+                    <span class="info__number">02</span>
+                    <h2>Open the app root</h2>
+                    <p>
+                        Use the backend URL, not the Vite entry file. Vite keeps the dev server URL
+                        in <code>public/hot</code> while it runs.
+                    </p>
+                </article>
+
+                <article class="info">
+                    <span class="info__number">03</span>
+                    <h2>Build for production</h2>
+                    <p>
+                        Run the Vite build, then point the backend at the manifest in
+                        <code>public/build</code>. The hot file is not used in production.
+                    </p>
+                </article>
+            </section>
+
+            <footer>
+                <span>Served by playdb-vite</span>
+                <span>PlayLite · PlayGoLite</span>
+            </footer>
+        </main>
+
+        <script>
+            (function () {
+                const button = document.querySelector("[data-copy-url]");
+                const link = document.getElementById("app-url");
+                if (!button || !link) return;
+
+                button.addEventListener("click", async function () {
+                    const label = button.textContent.trim();
+                    try {
+                        await navigator.clipboard.writeText(link.href);
+                        button.textContent = "Copied";
+                    } catch (error) {
+                        button.textContent = "Copy failed";
+                    }
+                    window.setTimeout(function () {
+                        button.textContent = label;
+                    }, 1600);
+                });
+            })();
+        </script>
+    </body>
+</html>
